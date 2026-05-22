@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.13)
 
-project(SimpleSerialAnalyzer)
+project(GPIBAnalyzer)
 
 add_definitions( -DLOGIC2 )
 
@@ -15,14 +15,14 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(ExternalAnalyzerSDK)
 
 set(SOURCES 
-src/SimpleSerialAnalyzer.cpp
-src/SimpleSerialAnalyzer.h
-src/SimpleSerialAnalyzerResults.cpp
-src/SimpleSerialAnalyzerResults.h
-src/SimpleSerialAnalyzerSettings.cpp
-src/SimpleSerialAnalyzerSettings.h
-src/SimpleSerialSimulationDataGenerator.cpp
-src/SimpleSerialSimulationDataGenerator.h
+src/GPIBAnalyzer.cpp
+src/GPIBAnalyzer.h
+src/GPIBAnalyzerResults.cpp
+src/GPIBAnalyzerResults.h
+src/GPIBAnalyzerSettings.cpp
+src/GPIBAnalyzerSettings.h
+src/GPIBSimulationDataGenerator.cpp
+src/GPIBSimulationDataGenerator.h
 )
 
 add_analyzer_plugin(${PROJECT_NAME} SOURCES ${SOURCES})
