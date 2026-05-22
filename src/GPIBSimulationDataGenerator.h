@@ -5,6 +5,7 @@
 
 #include "GPIBAnalyzerSettings.h"
 
+#include <memory>
 #include <array>
 #include <string>
 
@@ -23,10 +24,15 @@ protected:
 	U32 mMessageIndex;
 	U64 mCurrentSample;
 
-	SimulationChannelDescriptorGroup mSimulationData;
+	std::unique_ptr<SimulationChannelDescriptorGroup> mSimulationData;
 	std::array<SimulationChannelDescriptor*, GPIBAnalyzerSettings::kDataLineCount> mDataLines;
 	std::array<SimulationChannelDescriptor*, GPIBAnalyzerSettings::kControlLineCount> mControlLines;
 	SimulationChannelDescriptor* mDav;
+
+	std::array<U32, GPIBAnalyzerSettings::kDataLineCount> mDataLineIndices;
+	std::array<U32, GPIBAnalyzerSettings::kControlLineCount> mControlLineIndices;
+	U32 mDavIndex;
+
 	std::string mMessage;
 
 };

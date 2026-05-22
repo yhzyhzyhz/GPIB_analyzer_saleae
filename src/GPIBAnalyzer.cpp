@@ -61,7 +61,10 @@ void GPIBAnalyzer::SetupResults()
 {
 	mResults.reset( new GPIBAnalyzerResults( this, &mSettings ) );
 	SetAnalyzerResults( mResults.get() );
-	mResults->AddChannelBubblesWillAppearOn( mSettings.mDavChannel );
+	if( mSettings.mDavChannel != UNDEFINED_CHANNEL )
+	{
+		mResults->AddChannelBubblesWillAppearOn( mSettings.mDavChannel );
+	}
 }
 
 void GPIBAnalyzer::WorkerThread()
@@ -75,7 +78,7 @@ void GPIBAnalyzer::WorkerThread()
 	}
 
 	mAtn = mSettings.mAtnChannel != UNDEFINED_CHANNEL ? GetAnalyzerChannelData( mSettings.mAtnChannel ) : NULL;
-	mDav = GetAnalyzerChannelData( mSettings.mDavChannel );
+	mDav = mSettings.mDavChannel != UNDEFINED_CHANNEL ? GetAnalyzerChannelData( mSettings.mDavChannel ) : NULL;
 	mNrfd = mSettings.mNrfdChannel != UNDEFINED_CHANNEL ? GetAnalyzerChannelData( mSettings.mNrfdChannel ) : NULL;
 	mNdac = mSettings.mNdacChannel != UNDEFINED_CHANNEL ? GetAnalyzerChannelData( mSettings.mNdacChannel ) : NULL;
 	mEoi = mSettings.mEoiChannel != UNDEFINED_CHANNEL ? GetAnalyzerChannelData( mSettings.mEoiChannel ) : NULL;
@@ -85,6 +88,15 @@ void GPIBAnalyzer::WorkerThread()
 
 	for( ;; )
 	{
+		if( mDav == NULL )
+			return;
+
+		for( U32 i = 0; i < mDataLines.size(); i++ )
+		{
+			if( mDataLines[ i ] == NULL )
+				return;
+		}
+
 		mDav->AdvanceToNextEdge();
 		if( mDav->GetBitState() != BIT_LOW )
 		{
